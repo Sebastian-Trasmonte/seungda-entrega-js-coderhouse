@@ -31,38 +31,55 @@ alert("tu año de nacimiento es " + anio + ", por lo tanto tu edad aproximada es
 alert("Tus datos quedaron registrados de la siguiente manera \nNombre: " +
     nombre.charAt(0).toUpperCase() + nombre.slice(1) +
     "\nApellido: " + apellido.charAt(0).toUpperCase() + apellido.slice(1) + "\nEdad: " + edad + " Años") */
+const creditos = [
+    {
+        monto: 5000,
+        tasa: 5,
+        plazo: 6,
+    },
+    {
+        monto: 15000,
+        tasa: 10,
+        plazo: 12,
+    },
+    {
+        monto: 27000,
+        tasa: 13,
+        plazo: 24,
+    },
+];
 
-
-const credito = prompt("Quiere realizar una simulacion de nuestro credito hipotecario?");
+const decision = prompt("Quiere realizar una simulacion de nuestros creditos hipotecarios?");
 let lista = true
-if (credito == "si") {
-    creditos();
+if (decision == "si") {
+    seleccionCreditos();
 } else {
     alert("Gracias por visitar nuestra web");
 }
-function creditos() {
+function seleccionCreditos() {
     while (lista) {
         let opcion = parseInt(
             prompt(
-                "segun el monto que necesite sera la tasa a cobrar \n 1- de $1000 a $4999 usd 5% \n 2- de $5000 a $14999 usd 7.5% \n 3- de $15000 a $30000 usd 10% \n 4. Salir \n Ingrese un numero de la lista"
+                "Elija el credito y calcularemos el monto de las cuotas \n 1- credito por $5000 al 5% en 6 cuotas \n 2- credito por $15000 al 10% en 12 cuotas \n 3- credito por $27000 al 13% en 24 cuotas \n 4- salir"
             )
+
         );
         switch (opcion) {
             case 1:
-              seleccionarPrenda("Conjunto", 1000);
-              break;
+                calcularCuotas1
+                break;
             case 2:
-              seleccionarPrenda("Corpiño", 100);
-              break;
+                break;
             case 3:
-              seleccionarPrenda("Colaless", 200);
-              break;
+                break;
             case 4:
-              trueOrfalse = false;
-              break;
+                alert("Gracias por visitar nuestra web");
+                lista = false;
+                break;
             default:
-              alert("Opcion invalida");
-          }
+                alert("La opcion invalida");
         }
-      }
-      
+    }
+}
+
+function calcularCuotas1()
