@@ -66,7 +66,6 @@ function seleccionCreditos() {
         );
         switch (opcion) {
             case 1:
-                /* calcularCuotas1 */
                 break;
             case 2:
                 break;
@@ -81,5 +80,3 @@ function seleccionCreditos() {
         }
     }
 }
-
-/* function calcularCuotas1() */
