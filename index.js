@@ -1,4 +1,4 @@
-/* function PedirNombre() {
+function PedirNombre() {
     return prompt("Ingrese su nombre").toLowerCase();
 }
 function PedirApellido() {
@@ -30,8 +30,8 @@ let edad = AnioActual - anio
 alert("tu año de nacimiento es " + anio + ", por lo tanto tu edad aproximada es de " + edad + " años")
 alert("Tus datos quedaron registrados de la siguiente manera \nNombre: " +
     nombre.charAt(0).toUpperCase() + nombre.slice(1) +
-    "\nApellido: " + apellido.charAt(0).toUpperCase() + apellido.slice(1) + "\nEdad: " + edad + " Años") */
-const creditos = [
+    "\nApellido: " + apellido.charAt(0).toUpperCase() + apellido.slice(1) + "\nEdad: " + edad + " Años")
+/* const creditos = [
     {
         monto: 5000,
         tasa: 5,
@@ -80,3 +80,71 @@ function seleccionCreditos() {
         }
     }
 }
+ */
+
+/* Objeto para el simulador de crédito */
+var simuladorCredito = {
+    prestamosAnteriores: [],
+
+    calcularCuota: function (monto, tasa, plazo) {
+        var tasaInteresMensual = tasa / 12 / 100;
+        var cuotaMensual = (monto * tasaInteresMensual) / (1 - Math.pow(1 + tasaInteresMensual, -plazo));
+        var totalAPagar = cuotaMensual * plazo;
+
+        /* Almacenar los datos del préstamo actual en el array de préstamos anteriores */
+        var prestamoActual = {
+            monto: monto,
+            tasa: tasa,
+            plazo: plazo,
+            cuota: cuotaMensual,
+            total: totalAPagar
+        };
+        this.prestamosAnteriores.push(prestamoActual);
+
+        return {
+            cuotaMensual: cuotaMensual,
+            totalAPagar: totalAPagar
+        };
+    },
+
+    /* Método para buscar préstamos anteriores por monto */
+    buscarPorMonto: function (monto) {
+        return this.prestamosAnteriores.map(function (prestamo) {
+            if (prestamo.monto === monto) {
+                return prestamo;
+            } else {
+                return null;
+            }
+        }).filter(function (prestamo) {
+            return prestamo !== null;
+        });
+    }
+};
+
+// Solicitar datos al usuario utilizando prompt
+var monto = parseFloat(prompt("Ingrese el monto del préstamo en pesos:"));
+var tasa = parseFloat(prompt("Ingrese la tasa de interés anual (%):"));
+var plazo = parseInt(prompt("Ingrese el plazo del préstamo en meses:"));
+
+// Calcular la cuota y mostrar los resultados en un prompt
+var resultadoPrestamo = simuladorCredito.calcularCuota(monto, tasa, plazo);
+var resultadoMensaje = `Cuota mensual: $${resultadoPrestamo.cuotaMensual.toFixed(2)}\nTotal a pagar: $${resultadoPrestamo.totalAPagar.toFixed(2)}`;
+
+alert("Resultados del préstamo:\n" + resultadoMensaje);
+
+// Buscar préstamos anteriores por monto y mostrar los resultados en un prompt
+var montoBusqueda = parseFloat(prompt("Ingrese el monto para buscar préstamos anteriores:"));
+var prestamosAnteriores = simuladorCredito.buscarPorMonto(montoBusqueda);
+
+var mensajeBusqueda = "Préstamos anteriores por monto de $" + montoBusqueda + ":\n";
+
+if (prestamosAnteriores.length === 0) {
+    mensajeBusqueda += "No se encontraron préstamos anteriores con ese monto.";
+} else {
+    for (var i = 0; i < prestamosAnteriores.length; i++) {
+        var prestamo = prestamosAnteriores[i];
+        mensajeBusqueda += `Monto: $${prestamo.monto.toFixed(2)}, Tasa: ${prestamo.tasa}%, Plazo: ${prestamo.plazo} meses\n`;
+    }
+}
+
+prompt(mensajeBusqueda);
