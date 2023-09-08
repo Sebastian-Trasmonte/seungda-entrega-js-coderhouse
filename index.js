@@ -31,58 +31,7 @@ alert("tu año de nacimiento es " + anio + ", por lo tanto tu edad aproximada es
 alert("Tus datos quedaron registrados de la siguiente manera \nNombre: " +
     nombre.charAt(0).toUpperCase() + nombre.slice(1) +
     "\nApellido: " + apellido.charAt(0).toUpperCase() + apellido.slice(1) + "\nEdad: " + edad + " Años")
-/* const creditos = [
-    {
-        monto: 5000,
-        tasa: 5,
-        plazo: 6,
-    },
-    {
-        monto: 15000,
-        tasa: 10,
-        plazo: 12,
-    },
-    {
-        monto: 27000,
-        tasa: 13,
-        plazo: 24,
-    },
-];
 
-const decision = prompt("Quiere realizar una simulacion de nuestros creditos hipotecarios?");
-let lista = true
-if (decision == "si") {
-    seleccionCreditos();
-} else {
-    alert("Gracias por visitar nuestra web");
-}
-function seleccionCreditos() {
-    while (lista) {
-        let opcion = parseInt(
-            prompt(
-                "Elija el credito y calcularemos el monto de las cuotas \n 1- credito por $5000 al 5% en 6 cuotas \n 2- credito por $15000 al 10% en 12 cuotas \n 3- credito por $27000 al 13% en 24 cuotas \n 4- salir"
-            )
-
-        );
-        switch (opcion) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                alert("Gracias por visitar nuestra web");
-                lista = false;
-                break;
-            default:
-                alert("La opcion invalida");
-        }
-    }
-}
- */
-
-/* Objeto para el simulador de crédito */
 var simuladorCredito = {
     prestamosAnteriores: [],
 
@@ -91,7 +40,6 @@ var simuladorCredito = {
         var cuotaMensual = (monto * tasaInteresMensual) / (1 - Math.pow(1 + tasaInteresMensual, -plazo));
         var totalAPagar = cuotaMensual * plazo;
 
-        /* Almacenar los datos del préstamo actual en el array de préstamos anteriores */
         var prestamoActual = {
             monto: monto,
             tasa: tasa,
@@ -107,7 +55,7 @@ var simuladorCredito = {
         };
     },
 
-    /* Método para buscar préstamos anteriores por monto */
+
     buscarPorMonto: function (monto) {
         return this.prestamosAnteriores.map(function (prestamo) {
             if (prestamo.monto === monto) {
@@ -120,31 +68,46 @@ var simuladorCredito = {
         });
     }
 };
+let lista = true
 
-// Solicitar datos al usuario utilizando prompt
-var monto = parseFloat(prompt("Ingrese el monto del préstamo en pesos:"));
-var tasa = parseFloat(prompt("Ingrese la tasa de interés anual (%):"));
-var plazo = parseInt(prompt("Ingrese el plazo del préstamo en meses:"));
+while (lista) {
+    let opcion = parseInt(
+        prompt(
+            "Elija una opcion para continuar \n 1- Simular un credito \n 2- Buscar un credito \n 3- Salir"
+        )
 
-// Calcular la cuota y mostrar los resultados en un prompt
-var resultadoPrestamo = simuladorCredito.calcularCuota(monto, tasa, plazo);
-var resultadoMensaje = `Cuota mensual: $${resultadoPrestamo.cuotaMensual.toFixed(2)}\nTotal a pagar: $${resultadoPrestamo.totalAPagar.toFixed(2)}`;
+    );
+    switch (opcion) {
+        case 1:
+            var monto = parseFloat(prompt("Ingrese el monto del préstamo en pesos:"));
+            var tasa = parseFloat(prompt("Ingrese la tasa de interés anual (%):"));
+            var plazo = parseInt(prompt("Ingrese el plazo del préstamo en meses:"));
+            var resultadoPrestamo = simuladorCredito.calcularCuota(monto, tasa, plazo);
+            var resultadoMensaje = `Cuota mensual: $${resultadoPrestamo.cuotaMensual.toFixed(2)}\nTotal a pagar: $${resultadoPrestamo.totalAPagar.toFixed(2)}`;
+            alert("Resultados del préstamo:\n" + resultadoMensaje);
+            break;
+        case 2:
+            var montoBusqueda = parseFloat(prompt("Ingrese el monto para buscar préstamos anteriores:"));
+            var prestamosAnteriores = simuladorCredito.buscarPorMonto(montoBusqueda);
 
-alert("Resultados del préstamo:\n" + resultadoMensaje);
+            var mensajeBusqueda = "Préstamos anteriores por monto de $" + montoBusqueda + ":\n";
 
-// Buscar préstamos anteriores por monto y mostrar los resultados en un prompt
-var montoBusqueda = parseFloat(prompt("Ingrese el monto para buscar préstamos anteriores:"));
-var prestamosAnteriores = simuladorCredito.buscarPorMonto(montoBusqueda);
+            if (prestamosAnteriores.length === 0) {
+                mensajeBusqueda += "No se encontraron préstamos anteriores con ese monto.";
+            } else {
+                for (var i = 0; i < prestamosAnteriores.length; i++) {
+                    var prestamo = prestamosAnteriores[i];
+                    mensajeBusqueda += `Monto: $${prestamo.monto.toFixed(2)}, Tasa: ${prestamo.tasa}%, Plazo: ${prestamo.plazo} meses ,\n Cuota mensual: $${resultadoPrestamo.cuotaMensual.toFixed(2)}\nTotal a pagar: $${resultadoPrestamo.totalAPagar.toFixed(2)}\n`;
+                }
+            }
 
-var mensajeBusqueda = "Préstamos anteriores por monto de $" + montoBusqueda + ":\n";
-
-if (prestamosAnteriores.length === 0) {
-    mensajeBusqueda += "No se encontraron préstamos anteriores con ese monto.";
-} else {
-    for (var i = 0; i < prestamosAnteriores.length; i++) {
-        var prestamo = prestamosAnteriores[i];
-        mensajeBusqueda += `Monto: $${prestamo.monto.toFixed(2)}, Tasa: ${prestamo.tasa}%, Plazo: ${prestamo.plazo} meses\n`;
+            alert(mensajeBusqueda);
+            break;
+        case 3:
+            alert("Gracias por visitar nuestra web");
+            lista = false;
+            break;
+        default:
+            alert("La opcion invalida");
     }
 }
-
-prompt(mensajeBusqueda);
